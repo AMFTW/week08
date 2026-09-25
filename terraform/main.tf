@@ -40,3 +40,13 @@ resource "azurerm_kubernetes_cluster" "aks" {
     Purpose = "DevOps-Monitoring"
   }
 }
+data "azurerm_container_registry" "acr" {
+  name                = "koalatechweek07acr"
+  resource_group_name = "koalatech-week07-rg"
+}
+
+resource "azurerm_role_assignment" "aks_acr_pull" {
+  scope                = data.azurerm_container_registry.acr.id
+  role_definition_name = "AcrPull"
+  principal_id         = azurerm_kubernetes_cluster.aks.kubelet_identity[0].object_id
+}
