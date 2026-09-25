@@ -193,6 +193,13 @@ jobs:
             -t ${{ vars.ACR_LOGIN_SERVER }}/${{ matrix.image }}:${{ github.sha }} \
             ./${{ matrix.service }}
 
+      - name: Docker Scout vulnerability scan
+        uses: docker/scout-action@v1
+        with:
+          command: cves
+          image: ${{ matrix.image }}:${{ github.sha }}
+          only-severities: critical,high
+
       - name: Push Docker image with commit SHA
         run: |
           docker push \
