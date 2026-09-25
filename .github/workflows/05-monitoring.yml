@@ -1,6 +1,9 @@
 name: 05 - Deploy Monitoring
 
 on:
+  push:
+    branches:
+      - 9.3c-frontend-cd-test
   workflow_dispatch:
 
 jobs:
